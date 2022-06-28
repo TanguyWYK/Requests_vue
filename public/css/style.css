@@ -1,0 +1,44 @@
+body{
+    color: #fffaf2 ;
+}
+
+section{
+    float: left;
+}
+
+.operatorClass{
+    border: 1px black solid;
+    height: 50%;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+}
+
+td:nth-child(3) {
+    align-content: center;
+}
+
+#checkboxes{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.selected {
+    background-color: rgba(20, 106, 109, 0.8);
+}
+
+/* Background-color of the odd rows */
+.container tr:nth-child(odd) {
+    background-color: #8bb7e7;
+}
+
+/* Background-color of the even rows */
+.container tr:nth-child(even) {
+    background-color: #20bfd8;
+}
+
+.container th {
+    background-color:  #08c1ff;
+}
+
+
