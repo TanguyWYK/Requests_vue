@@ -1,20 +1,19 @@
 'use strict';
 
-function initPanel(tableName, operatorButtons,measures, selectOptions, idElement){
+function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
 
-    let panel = new Vue({
-        el: '#'+idElement,
-        data: {
-            tableName: tableName,
-            measures: measures,
-            counter: 0,
-            lastCounter: 10,
-            operatorButtons: operatorButtons,
-            operatorLen: operatorButtons.length,
-            selectOptions: selectOptions,
-            operator: null,
-            selectedOption: null,
-            isSend: false,
+    Vue.component('panel'+idComponent, {
+        data() {
+            return {
+                tableName: tableName,
+                operatorButtons: operatorButtons,
+                operatorLen: operatorButtons.length,
+                selectOptions: selectOptions,
+                operator: null,
+                selectedOption: null,
+                isSend: false,
+                positionSummarySentence: idComponent-1,
+            }
         },
         template: `<section>
                     <table v-if="tableName == 'Type polluant'">
@@ -33,7 +32,7 @@ function initPanel(tableName, operatorButtons,measures, selectOptions, idElement
                         </tr>
                         <tr>
                             <td v-bind:colspan="operatorLen">
-                                <select class="form-control" v-on:change="select($event)">
+                                <select class="form-control">
                                     <option selected="true" disabled="disabled" >sélectionner</option>
                                     <option v-on:click="selection($event)" v-for="selectOption in selectOptions" >{{ selectOption }}</option>
                                 </select>
@@ -70,48 +69,51 @@ function initPanel(tableName, operatorButtons,measures, selectOptions, idElement
                     </table>
                 </section>`,
         computed: {
-            sum: function () {
-                return this.counter + this.lastCounter;
+            summaryText() {
+                console.log(this.tableName,this.operator,this.selectedOption)
+                return [this.tableName,this.operator,this.selectedOption].join(' / ');
             }
         },
         methods: {
-            changeMeasures() {
-                this.counter++;
-                //Vue.set(this.measures,1,this.measures[1]+1);
-            },
-            selectedOperator(operatorEvent){
+            selectedOperator(operatorEvent) {
                 operatorEvent.target.parentNode.childNodes.forEach(element => element.classList.remove("selected"));
                 operatorEvent.target.classList.toggle("selected");
                 this.operator = operatorEvent.target.innerText;
+                this.$emit('change-sentence',{
+                    text: this.summaryText,
+                    position: this.positionSummarySentence
+                });
             },
             checkedCheckbox(checkboxEvent) {
-                if(checkboxEvent.target.checked === false){
+                if (checkboxEvent.target.checked === false) {
                     this.operator = null;
                     this.selectedOption = null;
                 }
-               let siblings = [checkboxEvent.target.parentNode.parentNode.nextElementSibling.childNodes, 
-                            checkboxEvent.target.parentNode.parentNode.nextElementSibling.nextElementSibling.childNodes];
-                siblings.forEach((element,index) => {
+                let siblings = [checkboxEvent.target.parentNode.parentNode.nextElementSibling.childNodes,
+                    checkboxEvent.target.parentNode.parentNode.nextElementSibling.nextElementSibling.childNodes];
+                siblings.forEach((element, index) => {
                     element.forEach(children => {
                         children.classList.toggle("not-allowed");
                     });
-                    if(index === siblings.length-1){
-                        element[0].childNodes[0].disabled = element[0].childNodes[0].disabled === false ;
+                    if (index === siblings.length - 1) {
+                        element[0].childNodes[0].disabled = element[0].childNodes[0].disabled === false;
                     }
                 });
-        },
-        selection(selectionEvent){
-            console.log(selectionEvent.target.parentNode.value);
-            this.selectedOption = selectionEvent.target.parentNode.value;
-            
-        },
-        select(event){
-            this.$emit('changed',event.target.value);
-            this.isSend = true;
-        },
+                this.$emit('change-sentence',{
+                    text: this.summaryText,
+                    position: this.positionSummarySentence
+                });
+            },
+            selection(selectionEvent) {
+                console.log(selectionEvent.target.parentNode.value);
+                this.selectedOption = selectionEvent.target.parentNode.value;
+                this.$emit('change-sentence',{
+                    text: this.summaryText,
+                    position: this.positionSummarySentence
+                });
+            },
         }
     });
-
 }
 
 
