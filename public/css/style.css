@@ -2,8 +2,12 @@ body{
     color: #fffaf2 ;
 }
 
+.selectedRecap{
+    color: black;
+}
 section{
     float: left;
+    max-width: fit-content;
 }
 
 .operatorClass{
@@ -14,8 +18,12 @@ section{
     cursor: pointer;
 }
 
+.pointer-notAllowed{
+    cursor: not-allowed;
+}
+
 td:nth-child(3) {
-    align-content: center;
+    align-content: left;
 }
 
 #checkboxes{
@@ -26,6 +34,12 @@ td:nth-child(3) {
 .selected {
     background-color: rgba(20, 106, 109, 0.8);
 }
+
+.not-allowed{
+    cursor: not-allowed;
+    background-color: dimgray;
+}
+
 
 /* Background-color of the odd rows */
 .container tr:nth-child(odd) {
