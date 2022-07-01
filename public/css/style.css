@@ -86,6 +86,8 @@ table#summaryTable{
 #summaryTable th{
     background-color: burlywood ;
     border: 1px black solid;
+    width: 150px;
+    
 }
 
 #summaryTable td {
@@ -93,4 +95,6 @@ table#summaryTable{
     border: 1px black solid;
     vertical-align: middle;
     text-align: center;
+    width: 150px;
+    word-break: break-all;
 }

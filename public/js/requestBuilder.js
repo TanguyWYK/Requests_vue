@@ -1,29 +1,22 @@
 let sentenceTable = Vue.component('sentenceTable', {
     data() {
         return {
-            title:[],
-            operators: [],
-            options: [],
+            tableInfos: [],
             isRecieved: false,
         }
     },
     template: `<table class="" id="summaryTable">
                 <thead>
                     <tr>
-                        <th>Type polluant</th>
-                        <th>Nom polluant</th>
-                        <th>Géologie</th>
-                        <th>Z min</th>
-                        <th>Z max</th>
-                        <th>Concentration</th>
+                        <th v-for="tableInfo in tableInfos"> {{ tableInfo[0] }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                    <td  v-for="(operator, index) in this.operators">{{ operator }}</td>
+                    <td  v-for="tableInfo in tableInfos">{{ tableInfo[1] }}</td>
                     </tr>
                     <tr>
-                    <td v-for="(option, index) in this.options[0]">{{ option }}</td>
+                    <td v-for="tableInfo in tableInfos">{{ tableInfo[2] }}</td>
                     </tr>
                 </tbody>
                 </table>`,
@@ -33,9 +26,8 @@ let sentenceTable = Vue.component('sentenceTable', {
     },
     methods: {
         refreshSentence(queryMaker) {
-            this.title = queryMaker[0];
-            this.operators = queryMaker[1];
-            this.options = queryMaker[2];
+            console.log(queryMaker);
+            this.tableInfos = queryMaker.filter(val => val);
             this.isRecieved = true
         }
 

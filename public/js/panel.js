@@ -117,6 +117,7 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
             },
             selection(selectionEvent) {
                 this.selectedOption = selectionEvent.target.value;
+                console.log(this.selectedOption);
                 this.$emit('change-sentence',{
                     text: this.summaryText,
                     position: this.positionSummarySentence
