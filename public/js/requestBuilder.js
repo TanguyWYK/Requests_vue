@@ -19,8 +19,7 @@ let sentenceTable = {
                 </thead>
                 <tbody>
                     <tr>
-                    <td v-for="(operator, index) in this.operators" v-if="operator === null"></td>
-                    <td v-else v-for="(operator, index) in this.operators">{{ operator }}</td>
+                    <td  v-for="(operator, index) in this.operators">{{ operator }}</td>
                     </tr>
                     <tr>
                     <td v-for="(option, index) in this.options[0]">{{ option }}</td>
