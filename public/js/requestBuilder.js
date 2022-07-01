@@ -3,9 +3,10 @@ let sentenceTable = {
         return{
             operators: [],
             options: [],
+            isRecieved: false,
         }
     },
-    template: `<table id="summaryTable">
+    template: `<table class="hidden" id="summaryTable">
                 <thead>
                     <tr>
                         <th>Type polluant</th>
@@ -18,7 +19,8 @@ let sentenceTable = {
                 </thead>
                 <tbody>
                     <tr>
-                    <td v-for="(operator, index) in this.operators">{{ operator }}</td>
+                    <td v-for="(operator, index) in this.operators" v-if="operator === null"></td>
+                    <td v-else v-for="(operator, index) in this.operators">{{ operator }}</td>
                     </tr>
                     <tr>
                     <td v-for="(option, index) in this.options[0]">{{ option }}</td>
@@ -28,6 +30,11 @@ let sentenceTable = {
     computed: {
         refresh(){
             return  this.$parent.$on('send-summary', this.refreshSentence);
+        },
+        start(){
+            if(this.isRecieved){
+                return document.getElementById("summaryTable").classList.remove("hidden");
+            }
         }
     },
     methods:{
@@ -35,6 +42,7 @@ let sentenceTable = {
             this.operators = table1;
             this.options = [];
             this.options.push(table2);
+            this.isRecieved = true
         }
 
     },

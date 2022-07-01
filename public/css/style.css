@@ -80,6 +80,7 @@ td:nth-child(3) {
 
 table#summaryTable{
     border-collapse: collapse;
+    empty-cells: show;
 }
 
 #summaryTable th{
