@@ -1,13 +1,30 @@
-body{
-    color: #fffaf2 ;
-}
+
+
 
 .selectedRecap{
     color: black;
+
 }
-section{
-    float: left;
-    max-width: fit-content;
+.panel{
+    color: white;
+    display: inline-block;
+}
+
+
+
+.optionsTable{
+    border-collapse: collapse;
+}
+
+.hidden{
+    display: none;
+}
+
+#fillTable{
+    background-color: #2bee63;
+    cursor: pointer ;
+    border-radius: 5%;
+    border: solid 1px black;
 }
 
 .operatorClass{
@@ -22,6 +39,10 @@ section{
     cursor: not-allowed;
 }
 
+td:hover{
+    opacity: 0.7;
+}
+
 td:nth-child(3) {
     align-content: left;
 }
@@ -31,23 +52,15 @@ td:nth-child(3) {
     text-align: center;
 }
 
-.selected {
-    background-color: rgba(20, 106, 109, 0.8);
-}
-
-.not-allowed{
-    cursor: not-allowed;
-    background-color: dimgray;
-}
 
 
 /* Background-color of the odd rows */
-.container tr:nth-child(odd) {
+.container  tr:nth-child(odd) td {
     background-color: #8bb7e7;
 }
 
 /* Background-color of the even rows */
-.container tr:nth-child(even) {
+.container tr:nth-child(even) td {
     background-color: #20bfd8;
 }
 
@@ -56,3 +69,27 @@ td:nth-child(3) {
 }
 
 
+.container table td.not-allowed{
+    cursor: not-allowed;
+    background-color: dimgray;
+}
+
+.container table td.selected {
+    background-color: rgba(20, 106, 109, 0.8);
+}
+
+table#summaryTable{
+    border-collapse: collapse;
+}
+
+#summaryTable th{
+    background-color: burlywood ;
+    border: 1px black solid;
+}
+
+#summaryTable td {
+    background-color: burlywood;
+    border: 1px black solid;
+    vertical-align: middle;
+    text-align: center;
+}

@@ -13,10 +13,11 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                 selectedOption: null,
                 isSend: false,
                 positionSummarySentence: idComponent-1,
+                measure: null,
             }
         },
-        template: `<section>
-                    <table v-if="tableName == 'Type polluant'">
+        template: `<div class="panel">
+                    <table v-if="tableName == 'Type polluant'" class="optionsTable">
                         <thead>
                         <tr>
                             <th v-bind:colspan="operatorLen">{{ tableName }}</th>
@@ -58,20 +59,25 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                             <td v-if="selectOptions  !== null" class="not-allowed"  v-bind:colspan="operatorLen">
                                 <select disabled class="form-control">
                                     <option selected="true" disabled="disabled" >sélectionner</option>
-                                    <option v-on:click="selection($event)" v-for="selectOption in selectOptions" >{{ selectOption }}</option>
+                                    <option v-on:click="selection($event)" v-for="selectOption in selectOptions" v-bind:data-id="selectOption.id" v-bind:data-custom="selectOption.custom" >{{ selectOption.name }}</option>
                                 </select>
                             </td>
                             <td v-else class="not-allowed" v-bind:colspan="operatorLen">
-                                <input disabled type="number" step="any" placeholder="entrez une mesure"/>
+                                <input disabled type="number" @change="selection($event)" step="any" placeholder="entrez une mesure"/>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                </section>`,
+                </div>`,
         computed: {
             summaryText() {
-                console.log(this.tableName,this.operator,this.selectedOption)
-                return [this.tableName,this.operator,this.selectedOption].join(' / ');
+                if(this._uid === 1){
+                    return [this.tableName, " = ", this.selectedOption];
+                }
+                else{
+                    return [this.tableName, this.operator, this.selectedOption];
+                }
+               
             }
         },
         methods: {
@@ -95,6 +101,11 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                     element.forEach(children => {
                         children.classList.toggle("not-allowed");
                     });
+                    if (index === 0) {
+                        element[0].classList.toggle("selected");
+                        this.operator = element[0].innerText;
+                    }
+
                     if (index === siblings.length - 1) {
                         element[0].childNodes[0].disabled = element[0].childNodes[0].disabled === false;
                     }
@@ -105,8 +116,12 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                 });
             },
             selection(selectionEvent) {
-                console.log(selectionEvent.target.parentNode.value);
-                this.selectedOption = selectionEvent.target.parentNode.value;
+               if(selectionEvent.target.nodeName == "INPUT"){
+                    this.selectedOption = selectionEvent.target.value;
+                }
+                else{
+                    this.selectedOption = selectionEvent.target.parentNode.value;
+                }
                 this.$emit('change-sentence',{
                     text: this.summaryText,
                     position: this.positionSummarySentence
@@ -115,5 +130,6 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
         }
     });
 }
+
 
 

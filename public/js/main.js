@@ -1,18 +1,26 @@
 'use strict';
-let pollutantsName = [];
-let geologiesNames = [];
+let pollutantsInfo = [];
+let geologiesInfo = [];
 for (let pollutant of POLLUTANTS) {
-    pollutantsName.push(pollutant.name_fr)
+    pollutantsInfo.push({
+        name: pollutant.name_fr,
+        id: pollutant.id,
+        custom: pollutant.custom
+    })
 }
 
 for (let geology of GEOLOGIES) {
-    geologiesNames.push(geology.name_fr)
+    geologiesInfo.push({
+        name: geology.name_fr,
+        id: geology.id,
+        custom: geology.custom
+    })
 }
 
 
 initPanel("Type polluant", ["="], ["Sol brut", "Sol eluat", "eau", "air"], 1);
-initPanel("Nom polluant", ["=", "≠"], pollutantsName, 2);
-initPanel("géologie", ["=", "≠"], geologiesNames, 3);
+initPanel("Nom polluant", ["=", "≠"], pollutantsInfo, 2);
+initPanel("géologie", ["=", "≠"], geologiesInfo, 3);
 initPanel("Z min", ["⩾", "⩽", ">", "<", "=", "≠"], null, 4);
 initPanel("Z max", ["⩾", "⩽", ">", "<", "=", "≠"], null, 5);
 initPanel("Concentration", ["⩾", "⩽", ">", "<", "=", "≠"], null, 6);
