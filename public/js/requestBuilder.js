@@ -1,12 +1,13 @@
-let sentenceTable = {
-    data(){
-        return{
+let sentenceTable = Vue.component('sentenceTable', {
+    data() {
+        return {
+            title:[],
             operators: [],
             options: [],
             isRecieved: false,
         }
     },
-    template: `<table class="hidden" id="summaryTable">
+    template: `<table class="" id="summaryTable">
                 <thead>
                     <tr>
                         <th>Type polluant</th>
@@ -26,27 +27,21 @@ let sentenceTable = {
                     </tr>
                 </tbody>
                 </table>`,
-    computed: {
-        refresh(){
-            return  this.$parent.$on('send-summary', this.refreshSentence);
-        },
-        start(){
-            if(this.isRecieved){
-                return document.getElementById("summaryTable").classList.remove("hidden");
-            }
-        }
+    mounted() {
+        this.$parent.$on('send-summary', this.refreshSentence);
+        document.getElementById("summaryTable").classList.remove("hidden");
     },
-    methods:{
-        refreshSentence(table1, table2){
-            this.operators = table1;
-            this.options = [];
-            this.options.push(table2);
+    methods: {
+        refreshSentence(queryMaker) {
+            this.title = queryMaker[0];
+            this.operators = queryMaker[1];
+            this.options = queryMaker[2];
             this.isRecieved = true
         }
 
     },
-    
-}
+
+});
 
 
 let requestBuilder = new Vue({
@@ -76,35 +71,27 @@ let requestBuilder = new Vue({
                 <button id="fillTable" @click="refreshRequestTable()">Ajouter contraintes</button>
             </section>`,
     computed: {
-        sentence(){
+        sentence() {
             return this.sentenceParts.join(" - ");
         },
-        drawTable(){
+        drawTable() {
             return this.SummaryTable.join(" ");
         }
     },
 
     methods: {
-        refreshSentence(sentenceParts){
+        refreshSentence(sentenceParts) {
             let textElement = ["tous les polluants", "toutes les géologies", "tous les Z min", "tous les Z max", "toutes les concentrations"];
-                if( sentenceParts.text[2] === null){
-                    sentenceParts.text[2] = textElement[sentenceParts.position-1];
-                    this.operators[sentenceParts.position] = sentenceParts.text[1];
-                    this.options[sentenceParts.position] = sentenceParts.text[2];
-                    //Vue.set(this.sentenceParts,sentenceParts.position,sentenceParts.text.join(' '));
-                    this.queryMaker[sentenceParts.position] = sentenceParts.text;
-                    this.$emit('send-summary', this.operators, this.options);
-                }
-                else{
-                    //Vue.set(this.sentenceParts,sentenceParts.position,sentenceParts.text.join(' '));
-                    this.queryMaker[sentenceParts.position] = sentenceParts.text;
-                    this.operators[sentenceParts.position] = sentenceParts.text[1];
-                    this.options[sentenceParts.position] = sentenceParts.text[2];
-                    this.$emit('send-summary', this.operators, this.options);
-                }
+            if (sentenceParts.text[2] === null) {
+                sentenceParts.text[2] = textElement[sentenceParts.position - 1];
+            }
+            Vue.set(this.operators, sentenceParts.position, sentenceParts.text[1]);
+            Vue.set(this.options, sentenceParts.position, sentenceParts.text[2]);
+            Vue.set(this.queryMaker, sentenceParts.position, sentenceParts.text);
+            this.$emit('send-summary', this.queryMaker);
         },
 
-        refreshRequestTable(){
+        refreshRequestTable() {
             console.log(this.queryMaker);
         },
     }

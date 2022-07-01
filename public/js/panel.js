@@ -33,9 +33,9 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                         </tr>
                         <tr>
                             <td v-bind:colspan="operatorLen">
-                                <select class="form-control">
+                                <select class="form-control" v-on:change="selection($event)">
                                     <option selected="true" disabled="disabled" >sélectionner</option>
-                                    <option v-on:click="selection($event)" v-for="selectOption in selectOptions" >{{ selectOption }}</option>
+                                    <option v-for="selectOption in selectOptions" >{{ selectOption }}</option>
                                 </select>
                             </td>
                         </tr>
@@ -57,9 +57,9 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                         </tr>
                         <tr>
                             <td v-if="selectOptions  !== null" class="not-allowed"  v-bind:colspan="operatorLen">
-                                <select disabled class="form-control">
+                                <select disabled class="form-control" v-on:change="selection($event)">
                                     <option selected="true" disabled="disabled" >sélectionner</option>
-                                    <option v-on:click="selection($event)" v-for="selectOption in selectOptions" v-bind:data-id="selectOption.id" v-bind:data-custom="selectOption.custom" >{{ selectOption.name }}</option>
+                                    <option v-for="selectOption in selectOptions" v-bind:data-id="selectOption.id" v-bind:data-custom="selectOption.custom" >{{ selectOption.name }}</option>
                                 </select>
                             </td>
                             <td v-else class="not-allowed" v-bind:colspan="operatorLen">
@@ -116,12 +116,7 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                 });
             },
             selection(selectionEvent) {
-               if(selectionEvent.target.nodeName == "INPUT"){
-                    this.selectedOption = selectionEvent.target.value;
-                }
-                else{
-                    this.selectedOption = selectionEvent.target.parentNode.value;
-                }
+                this.selectedOption = selectionEvent.target.value;
                 this.$emit('change-sentence',{
                     text: this.summaryText,
                     position: this.positionSummarySentence
