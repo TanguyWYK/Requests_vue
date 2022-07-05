@@ -5,7 +5,7 @@ let sentenceTable = Vue.component('sentenceTable', {
             isRecieved: false,
         }
     },
-    template: `<table class="" id="summaryTable">
+    template: `<table class="" id="sentenceTable">
                 <thead>
                     <tr>
                         <th v-for="tableInfo in tableInfos"> {{ tableInfo[0] }}</th>
@@ -21,13 +21,13 @@ let sentenceTable = Vue.component('sentenceTable', {
                 </tbody>
                 </table>`,
     mounted() {
-        this.$parent.$on('send-summary', this.refreshSentence);
-        document.getElementById("summaryTable").classList.remove("hidden");
+        this.$parent.$on('send-selection', this.refreshSentence);
+        document.getElementById("sentenceTable").classList.remove("hidden");
     },
     methods: {
-        refreshSentence(queryMaker) {
-            console.log(queryMaker);
-            this.tableInfos = queryMaker.filter(val => val);
+        refreshSentence(tableDrawer) {
+            console.log(tableDrawer);
+            this.tableInfos = tableDrawer.filter(val => val);
             this.isRecieved = true
         }
 
@@ -39,7 +39,8 @@ let sentenceTable = Vue.component('sentenceTable', {
 let requestBuilder = new Vue({
     el: '#requestBuilder',
     components: {
-        sentenceTable: sentenceTable
+        sentenceTable: sentenceTable,
+        summaryTable: summaryTable,
     },
     data: {
         sentenceParts: new Array(6).fill(''),
@@ -47,12 +48,15 @@ let requestBuilder = new Vue({
         operators: [],
         options: [],
         SummaryTable: [],
+        tableDrawer: [],
+        types: [],
+        brutRow: "", 
     },
     template: `<section class="recap">
                 <div>
                     <panel1 @change-sentence="refreshSentence"></panel1>
-                    <panel2 @change-sentence="refreshSentence"></panel2>
-                    <panel3 @change-sentence="refreshSentence"></panel3>
+                    <panel2 @change-sentence="refreshSentence" @queryDetails="refreshQuery"></panel2>
+                    <panel3 @change-sentence="refreshSentence" @queryDetails="refreshQuery"></panel3>
                     <panel4 @change-sentence="refreshSentence"></panel4>
                     <panel5 @change-sentence="refreshSentence"></panel5>
                     <panel6 @change-sentence="refreshSentence"></panel6>
@@ -60,7 +64,8 @@ let requestBuilder = new Vue({
                 <div class="selectedRecap" id="sentenceDiv">
                     <sentenceTable></sentenceTable>
                 </div>
-                <button id="fillTable" @click="refreshRequestTable()">Ajouter contraintes</button>
+                <button id="fillTable" @click="emitSummary()" >Ajouter contraintes</button>
+                <summaryTable></summaryTable>
             </section>`,
     computed: {
         sentence() {
@@ -68,7 +73,7 @@ let requestBuilder = new Vue({
         },
         drawTable() {
             return this.SummaryTable.join(" ");
-        }
+        },
     },
 
     methods: {
@@ -79,15 +84,33 @@ let requestBuilder = new Vue({
             }
             Vue.set(this.operators, sentenceParts.position, sentenceParts.text[1]);
             Vue.set(this.options, sentenceParts.position, sentenceParts.text[2]);
-            Vue.set(this.queryMaker, sentenceParts.position, sentenceParts.text);
-            this.$emit('send-summary', this.queryMaker);
+            Vue.set(this.tableDrawer, sentenceParts.position, sentenceParts.text);
+            this.$emit('send-selection', this.tableDrawer);
+        },
+        refreshQuery(idCustomInfo) {
+            this.queryMaker = this.tableDrawer;
+            if(idCustomInfo.name === "géologie"){
+                for(let value of Object.values(idCustomInfo) ){
+                    this.queryMaker[2].push(value);
+                    this.queryMaker[2] = [...new Set(this.queryMaker[2])];
+                }
+            }
+            else{
+                for(let value of Object.values(idCustomInfo) ){
+                    this.queryMaker[1].push(value);
+                    this.queryMaker[1] = [...new Set(this.queryMaker[1])];
+                }
+            }
         },
 
-        refreshRequestTable() {
-            console.log(this.queryMaker);
-        },
+        emitSummary(){
+            this.$emit('send-summary', this.queryMaker);
+        }
+
     }
 });
+
+
 
 
 

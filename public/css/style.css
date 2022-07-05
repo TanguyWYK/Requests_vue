@@ -78,19 +78,19 @@ td:nth-child(3) {
     background-color: rgba(20, 106, 109, 0.8);
 }
 
-table#summaryTable{
+table#sentenceTable{
     border-collapse: collapse;
     empty-cells: show;
 }
 
-#summaryTable th{
+#sentenceTable th{
     background-color: burlywood ;
     border: 1px black solid;
     width: 150px;
     
 }
 
-#summaryTable td {
+#sentenceTable td {
     background-color: burlywood;
     border: 1px black solid;
     vertical-align: middle;

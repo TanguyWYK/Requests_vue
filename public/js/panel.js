@@ -14,6 +14,8 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                 isSend: false,
                 positionSummarySentence: idComponent-1,
                 measure: null,
+                id: null,
+                custom: null,
             }
         },
         template: `<div class="panel">
@@ -33,7 +35,7 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                         </tr>
                         <tr>
                             <td v-bind:colspan="operatorLen">
-                                <select class="form-control" v-on:change="selection($event)">
+                                <select class="form-control" id="typeSelector" v-on:change="selection($event)">
                                     <option selected="true" disabled="disabled" >sélectionner</option>
                                     <option v-for="selectOption in selectOptions" >{{ selectOption }}</option>
                                 </select>
@@ -57,13 +59,13 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                         </tr>
                         <tr>
                             <td v-if="selectOptions  !== null" class="not-allowed"  v-bind:colspan="operatorLen">
-                                <select disabled class="form-control" v-on:change="selection($event)">
+                                <select disabled class="form-control" v-bind:data-name="tableName" v-on:change="selection($event)">
                                     <option selected="true" disabled="disabled" >sélectionner</option>
                                     <option v-for="selectOption in selectOptions" v-bind:data-id="selectOption.id" v-bind:data-custom="selectOption.custom" >{{ selectOption.name }}</option>
                                 </select>
                             </td>
                             <td v-else class="not-allowed" v-bind:colspan="operatorLen">
-                                <input disabled type="number" @change="selection($event)" step="any" placeholder="entrez une mesure"/>
+                                <input disabled type="number" v-bind:data-name="tableName" @change="selection($event)" step="any" placeholder="entrez une mesure"/>
                             </td>
                         </tr>
                         </tbody>
@@ -117,11 +119,20 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
             },
             selection(selectionEvent) {
                 this.selectedOption = selectionEvent.target.value;
-                console.log(this.selectedOption);
                 this.$emit('change-sentence',{
                     text: this.summaryText,
                     position: this.positionSummarySentence
                 });
+               if(selectionEvent.target.dataset.name === "géologie" || selectionEvent.target.dataset.name === "Nom polluant" ){
+                    let options = selectionEvent.target.options
+                    this.id = options[options.selectedIndex].dataset.id;
+                    this.custom = options[options.selectedIndex].dataset.custom;
+                    this.$emit('queryDetails',{
+                        name: selectionEvent.target.dataset.name,
+                        id: this.id,
+                        custom: this.custom,
+                     });
+                }
             },
         }
     });
