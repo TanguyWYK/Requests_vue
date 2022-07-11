@@ -26,7 +26,6 @@ let sentenceTable = Vue.component('sentenceTable', {
     },
     methods: {
         refreshSentence(tableDrawer) {
-            console.log(tableDrawer);
             this.tableInfos = tableDrawer.filter(val => val);
             this.isRecieved = true
         }

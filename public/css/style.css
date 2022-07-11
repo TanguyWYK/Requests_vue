@@ -98,3 +98,21 @@ table#sentenceTable{
     width: 150px;
     word-break: break-all;
 }
+
+table#summary{
+    border-collapse: collapse;
+}
+
+table#summary:not(:first-child){
+    position: absolute;
+}
+
+table#summary .selectEtOu{
+    border: none;
+    vertical-align: bottom;
+    background-color: transparent;
+}
+
+#bgChanger{
+    background-color: transparent;
+}
