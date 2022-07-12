@@ -65,6 +65,7 @@ let requestBuilder = new Vue({
                 </div>
                 <button id="fillTable" @click="emitSummary()" >Ajouter contraintes</button>
                 <summaryTable></summaryTable>
+                <button id="queryButton" class="hidden" @click="makeQuery()">Voir les résultats</button>
             </section>`,
     computed: {
         sentence() {
@@ -106,11 +107,18 @@ let requestBuilder = new Vue({
         },
 
         emitSummary(){
+            document.getElementById("queryButton").classList.remove("hidden");
             let test = document.querySelectorAll(".form-control");
             test.forEach(element => {
                 element.value = element.options[0].innerHTML;
             });
             this.$emit('send-summary', this.queryMaker);
+        },
+
+        makeQuery(){
+            let queryObject = {
+                
+            }
         }
 
     }

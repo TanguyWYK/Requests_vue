@@ -80,7 +80,8 @@ td:nth-child(3) {
 
 table#sentenceTable{
     border-collapse: collapse;
-    empty-cells: show;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 #sentenceTable th{
@@ -101,16 +102,22 @@ table#sentenceTable{
 
 table#summary{
     border-collapse: collapse;
+    margin-top: 15px;
 }
 
 table#summary td{
     height: 30px;
+    text-align: center;
 }
 
 
 #summary .relative{
     position: relative;
     width: 150px;
+}
+
+#summary .paddingLeft{
+    padding-left: 50px;
 }
 
 table#summary .selectEtOu{
@@ -127,7 +134,7 @@ table#summary .elementSelector{
     border: none;
     position: absolute;
     top: -13px;
-    right: 10px;
+    left: 1px;
     z-index: 100;
 }
 
@@ -162,4 +169,9 @@ table#summary .removeButton{
     display: flex;
     top: 9px;
     position: relative;
+}
+
+
+#queryButton{
+    margin-top: 15px;
 }

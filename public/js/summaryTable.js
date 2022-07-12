@@ -6,7 +6,6 @@ let summaryTable = Vue.component('summaryTable', {
             airTable: [],
             waterTable: [],
             querySum: null,
-            typesCounter: 0,
 
         }
     },
@@ -31,20 +30,17 @@ let summaryTable = Vue.component('summaryTable', {
                                 </select>
                             </div>
                         Sol brut</td>
-                        <td v-if="index > 0" v-for="(brut,index) in brutElements" class="relative">
-                        <div v-if=" elementNum > 0" class="elementSelector">
+                        <td v-if="i > 0" v-for="i in 5" class="relative" :class="i == 1 ? 'paddingLeft' : '' ">
+                        <div v-if=" elementNum > 0 && i === 1" class="elementSelector">
                             <select name="operator" id="operator-select">
                             <option value="">Et</option>
                             <option value="">Ou</option>
                             </select>
                         </div>
-                        {{ brut[1]+brut[2] }}
+                        <span v-if="brutElements[i]">{{ brutElements[i][1]+brutElements[i][2] }}</span>
+                        <span v-else>-</span>
                         </td>
-                        <td @click="removeLine($event)" class="remove">
-                            <div class="removeDiv">
-                                <span class="removeButton"></span>
-                            </div>
-                        </td>
+                        
                     </tr>
                     <tr v-if="eluateTable.length" v-for="(eluateElements,elementNum) in eluateTable">
                         <td v-if="elementNum < 1" :rowspan="eluateTable.length" class="relative">
@@ -54,16 +50,17 @@ let summaryTable = Vue.component('summaryTable', {
                             <option value="">Ou</option>
                             </select>
                         </div>
-                    Sol eluat</td>
-                        <td v-if="index > 0" v-for="(eluate,index) in eluateElements">
-                        <div v-if=" index > 1" class="">
-                            <select name="operator" id="operator-select">
-                            <option value="">Et</option>
-                            <option value="">Ou</option>
-                            </select>
-                        </div>
-                        {{ eluate[1]+eluate[2] }}
-                        </td>
+                        Sol eluat</td>
+                    <td v-if="i > 0" v-for="i in 5" class="relative" :class="i == 1 ? 'paddingLeft' : '' ">
+                    <div v-if=" elementNum > 0 && i === 1" class="elementSelector">
+                        <select name="operator" id="operator-select">
+                        <option value="">Et</option>
+                        <option value="">Ou</option>
+                        </select>
+                    </div>
+                    <span v-if="eluateElements[i]">{{ eluateElements[i][1]+eluateElements[i][2] }}</span>
+                    <span v-else>-</span>
+                    </td>
                     </tr>
                     <tr v-if="waterTable.length" v-for="(waterElements,elementNum) in waterTable">
                         <td v-if="elementNum < 1" :rowspan="waterTable.length" class="relative">
@@ -74,26 +71,29 @@ let summaryTable = Vue.component('summaryTable', {
                             </select>
                         </div>
                         eau</td>
-                        <td v-if="index > 0" v-for="(water,index) in waterElements">
-                        <div v-if=" index > 1" class="">
+                        <td v-if="i > 0" v-for="i in 5" class="relative" :class="i == 1 ? 'paddingLeft' : '' ">
+                        <div v-if=" elementNum > 0 && i === 1" class="elementSelector">
                             <select name="operator" id="operator-select">
                             <option value="">Et</option>
                             <option value="">Ou</option>
                             </select>
                         </div>
-                        {{ water[1]+water[2] }}
+                        <span v-if="waterElements[i]">{{ waterElements[i][1]+waterElements[i][2] }}</span>
+                        <span v-else>-</span>
                         </td>
                     </tr>
                     <tr v-if="airTable.length" v-for="(airElements,elementNum) in airTable">
                         <td v-if="elementNum < 1" :rowspan="airTable.length" class="relative">air</td>
-                        <td v-if="index > 0" v-for="(air,index) in airElements">
-                        <div v-if=" index > 1" class="">
+                        <td v-if="i > 0" v-for="i in 5" class="relative" :class="i == 1 ? 'paddingLeft' : '' ">
+                        <div v-if=" elementNum > 0 && i === 1" class="elementSelector">
                             <select name="operator" id="operator-select">
                             <option value="">Et</option>
                             <option value="">Ou</option>
                             </select>
                         </div>
-                        {{ air[1]+air[2] }}</td>
+                        <span v-if="airElements[i]">{{ airElements[i][1]+airElements[i][2] }}</span>
+                        <span v-else>-</span>
+                        </td>
                     </tr>
                 </tbody>
                 </table>`,
@@ -113,7 +113,6 @@ let summaryTable = Vue.component('summaryTable', {
             queryMaker = {...queryMaker}
             if(queryMaker[0][2] === "Sol brut"){
                 this.brutTable.push(queryMaker);
-                console.log(this.brutTable[0]);
             }
             else if(queryMaker[0][2] === "Sol eluat"){
                 this.eluateTable.push(queryMaker);
@@ -127,9 +126,17 @@ let summaryTable = Vue.component('summaryTable', {
         },
 
         removeLine(removeButton){
-            console.log(removeButton.target.parentNode.parentNode.closest('tr'));
             removeButton.target.parentNode.parentNode.closest('tr').remove();
         }
     },
 
 });
+
+
+/**
+ * <td @click="removeLine($event)" class="remove">
+                            <div class="removeDiv">
+                                <span class="removeButton"></span>
+                            </div>
+                        </td>
+ */
