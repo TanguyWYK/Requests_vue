@@ -39,7 +39,7 @@
     cursor: not-allowed;
 }
 
-td:hover{
+.panel td:hover{
     opacity: 0.7;
 }
 
@@ -103,16 +103,63 @@ table#summary{
     border-collapse: collapse;
 }
 
-table#summary:not(:first-child){
-    position: absolute;
+table#summary td{
+    height: 30px;
+}
+
+
+#summary .relative{
+    position: relative;
+    width: 150px;
 }
 
 table#summary .selectEtOu{
     border: none;
     vertical-align: bottom;
     background-color: transparent;
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    z-index: 100;
+}
+
+table#summary .elementSelector{
+    border: none;
+    position: absolute;
+    top: -13px;
+    right: 10px;
+    z-index: 100;
 }
 
 #bgChanger{
     background-color: transparent;
+}
+
+table#summary .remove{
+    border: none;
+    vertical-align: center;
+    background-color: transparent;
+    z-index: 100;
+    cursor: pointer;
+    position: absolute;
+}
+
+table#summary .removeDiv{
+    border: solid 1px #000;
+    border-radius: 50%;
+    background-color: rgb(248, 11, 11);
+    height: 25px;
+    width: 25px;
+    position: absolute;
+}
+
+table#summary .removeButton{
+    border-radius: 20%;
+    border: solid 1px black;
+    background-color: white;
+    height: 5px;
+    width: 24px;
+    display: flex;
+    top: 9px;
+    position: relative;
 }

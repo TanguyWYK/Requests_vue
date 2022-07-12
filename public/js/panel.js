@@ -77,6 +77,7 @@ function initPanel(tableName, operatorButtons, selectOptions, idComponent) {
                     return [this.tableName, " = ", this.selectedOption];
                 }
                 else{
+                    console.log(this)
                     return [this.tableName, this.operator, this.selectedOption];
                 }
                
