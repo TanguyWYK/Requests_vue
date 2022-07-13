@@ -49,8 +49,9 @@ let requestBuilder = new Vue({
         SummaryTable: [],
         tableDrawer: [],
         types: [],
-        brutRow: "", 
+        brutRow: "",
     },
+    
     template: `<section class="recap">
                 <div>
                     <panel1 @change-sentence="refreshSentence"></panel1>
@@ -65,7 +66,6 @@ let requestBuilder = new Vue({
                 </div>
                 <button id="fillTable" @click="emitSummary()" >Ajouter contraintes</button>
                 <summaryTable></summaryTable>
-                <button id="queryButton" class="hidden" @click="makeQuery()">Voir les résultats</button>
             </section>`,
     computed: {
         sentence() {
@@ -114,12 +114,6 @@ let requestBuilder = new Vue({
             });
             this.$emit('send-summary', this.queryMaker);
         },
-
-        makeQuery(){
-            let queryObject = {
-                
-            }
-        }
 
     }
 });
