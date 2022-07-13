@@ -10,7 +10,7 @@ let summaryTable = Vue.component('summaryTable', {
             waterOperator: [],
             airOperator: [],
             querySum: null,
-            generalOperators: [],
+            generalOperators: ["OR","OR","OR"],
             listRequest: {
                 pollutants_soil: {
                 }, 
@@ -252,15 +252,15 @@ function fillQuery(typeObject, element){
         typeObject.geologyCustom = element[2][4];
         typeObject.operator_geology = element[2][1];
     }
-    if(element[3]){
+    if(element[3] && element[3][2] != "tous les Z min"){
         typeObject.zMin = element[3][2];
         typeObject.operator_zMin = element[3][1];
     }
-    if(element[4]){
+    if(element[4] && element[4][2] != "tous les Z max" ){
         typeObject.zMax = element[4][2];
         typeObject.operator_zMax = element[4][1];
     }
-    if(element[5]){
+    if(element[5] && element[5][2] != "toutes les concentrations"){
         typeObject.concentration = element[5][2];
         typeObject.operator_concentration = element[5][1];
     }
